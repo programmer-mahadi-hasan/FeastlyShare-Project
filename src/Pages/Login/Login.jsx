@@ -1,20 +1,35 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FaGoogle, FaGithub } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import AuthContext from '../../Context/AuthContext/AuthContext';
 
 const Login = () => {
+    const { loginUser } = useContext(AuthContext)
+    const handleLogin = e => {
+        e.preventDefault()
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        loginUser(email, password)
+            .then(result => {
+                console.log(result.user)
+            })
+            .catch(error => {
+                console.log(error.message)
+            })
+    }
     return (
         <div className="flex flex-col md:flex-row h-screen">
             <div className="flex flex-col justify-center items-center w-full md:w-1/2 bg-zinc-50 p-8">
                 <h1 className="text-3xl font-bold mb-6">Sign in</h1>
-                <form className="w-full max-w-sm">
+                <form onSubmit={handleLogin} className="w-full max-w-sm">
                     <div className="mb-4">
                         <label className="block text-zinc-700 text-sm font-bold mb-2" htmlFor="email">Email Address</label>
-                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-zinc-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Enter Your Email" required />
+                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-zinc-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Enter Your Email" name='email' required />
                     </div>
                     <div className="mb-4">
                         <label className="block text-zinc-700 text-sm font-bold mb-2" htmlFor="password">Password</label>
-                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-zinc-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Enter Password" required />
+                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-zinc-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Enter Password" name='password' required />
                     </div>
                     <div className="flex items-center justify-between mb-4">
                         <label className="inline-flex items-center">
