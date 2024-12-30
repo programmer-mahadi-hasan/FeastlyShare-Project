@@ -1,37 +1,77 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
+import { FaGoogle } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 const Register = () => {
     return (
-        <div className="flex flex-col md:flex-row min-h-screen">
-            <div className="w-full md:w-1/2 bg-gradient-to-br from-primary to-secondary flex flex-col justify-center items-center text-primary-foreground p-6 md:p-10">
-                <h1 className="text-2xl md:text-4xl font-bold mb-4">WELCOME TO FeastlyShare</h1>
-                <p className="text-base md:text-lg mb-6 text-center">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.
-                </p>
-                <div className="flex space-x-4">
-                    <button className="bg-white text-primary p-2 rounded-full">F</button>
-                    <button className="bg-white text-secondary p-2 rounded-full">T</button>
-                    <button className="bg-white text-primary p-2 rounded-full">G</button>
-                    <button className="bg-white text-secondary p-2 rounded-full">L</button>
+        <div className="flex flex-col md:flex-row h-screen">
+            <div className="flex-1 flex items-center justify-center bg-background p-6">
+                <div className="max-w-md w-full">
+                    <h1 className="text-3xl font-bold mb-6">Sign up</h1>
+                    <form>
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-muted-foreground">Full Name</label>
+                            <input
+                                type="text"
+                                placeholder="Enter Your Name"
+                                className="mt-1 block w-full p-2 border border-border rounded-lg bg-muted text-muted-foreground"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-muted-foreground">Photo Url</label>
+                            <input
+                                type="url"
+                                placeholder="Enter your photo url"
+                                className="mt-1 block w-full p-2 border border-border rounded-lg bg-muted text-muted-foreground"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-muted-foreground">Email Address</label>
+                            <input
+                                type="email"
+                                placeholder="Enter Your Email"
+                                className="mt-1 block w-full p-2 border border-border rounded-lg bg-muted text-muted-foreground"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-muted-foreground">Password</label>
+                            <input
+                                type="password"
+                                placeholder="Enter Password"
+                                className="mt-1 block w-full p-2 border border-border rounded-lg bg-muted text-muted-foreground"
+                            />
+                        </div>
+                        <div className="flex items-center mb-4">
+                            <input type="checkbox" className="mr-2" />
+                            <span className="text-sm text-muted-foreground">
+                                I agree to the <a href="#" className="text-primary">Terms</a> and <a href="#" className="text-primary">Privacy Policy</a>.
+                            </span>
+                        </div>
+                        <button className="w-full bg-black text-white hover:bg-black/80 p-2 rounded-lg">
+                            Sign Up
+                        </button>
+                    </form>
+                    <div className="mt-4 text-center">
+                        <span className="text-sm text-muted-foreground">Or continue with</span>
+                        <div className="flex justify-between">
+                            <button className="bg-white text-black border border-zinc-300 rounded py-2 px-4 flex items-center">
+                                <FaGoogle className='mr-2' /> Google
+                            </button>
+                            <button className="bg-white text-black border border-zinc-300 rounded py-2 px-4 flex items-center">
+                                <FaGithub className='mr-2' /> GitHub
+                            </button>
+                        </div>
+                    </div>
+                    <div className="mt-4 text-center">
+                        <span className="text-sm text-muted-foreground">Already a member? <Link to={'/login'} className="text-primary">Sign in now</Link></span>
+                    </div>
                 </div>
             </div>
-
-            <div className="w-full md:w-1/2 bg-card flex flex-col justify-center p-6 md:p-10">
-                <h2 className="text-xl md:text-3xl font-semibold mb-4">FeastlyShare</h2>
-                <h3 className="text-lg md:text-xl mb-6">Create An Account</h3>
-                <form className="space-y-4">
-                    <input type="text" placeholder="Full Name" className="w-full p-3 border border-card rounded" />
-                    <input type="email" placeholder="Email Address" className="w-full p-3 border border-card rounded" />
-                    <input type="password" placeholder="Password" className="w-full p-3 border border-card rounded" />
-                    <div className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
-                        <label className="text-card-foreground">I agree to the terms of service</label>
-                    </div>
-                    <button className="w-full bg-accent text-accent-foreground p-3 rounded hover:bg-accent/80">Register</button>
-                </form>
-                <p className="mt-4 text-center text-card-foreground">
-                    Already a member? <a href="#" className="text-accent">Login here</a>
-                </p>
+            <div className="flex-1 bg-card flex items-center justify-center p-6">
+                <div className="max-w-md text-center">
+                    <h1 className='text-3xl font-bold text-foreground'>FeastlyShare</h1>
+                    <h2 className="text-2xl font-bold text-foreground">Join the largest Food-Sharing community in the world.</h2>
+                </div>
             </div>
         </div>
     );
