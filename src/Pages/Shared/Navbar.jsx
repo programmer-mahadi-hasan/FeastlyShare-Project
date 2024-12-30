@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     const Links = <>
-        <li><a>Item 1</a></li>
-        <li><a>Item 2</a></li>
-        <li><a>Item 3</a></li>
+        <li><a>Home</a></li>
+        <li><a>Available Foods</a></li>
+        <li><a>Add Food</a></li>
+        <li><a>Manage My Foods</a></li>
+        <li><a>My Food Request</a></li>
     </>
     return (
         <div className="navbar bg-base-100">
@@ -38,7 +40,7 @@ const Navbar = () => {
                     {Links}
                 </ul>
             </div>
-            <div className="navbar-end">
+            <div className="navbar-end space-x-3">
                 <Link to={'/register'}>Register</Link>
                 <Link to={'/login'} className="btn">Login</Link>
             </div>
