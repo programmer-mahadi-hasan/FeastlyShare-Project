@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import AuthContext from '../../Context/AuthContext/AuthContext';
 
 const Navbar = () => {
@@ -14,11 +14,11 @@ const Navbar = () => {
             })
     }
     const Links = <>
-        <li><a>Home</a></li>
-        <li><a>Available Foods</a></li>
-        <li><a>Add Food</a></li>
-        <li><a>Manage My Foods</a></li>
-        <li><a>My Food Request</a></li>
+        <li><NavLink to={'/'}>Home</NavLink></li>
+        <li><NavLink to={'/available-foods'}>Available Foods</NavLink></li>
+        <li><NavLink to={'/add-foods'}>Add Food</NavLink></li>
+        <li><NavLink to={'/manage-foods'}>Manage My Foods</NavLink></li>
+        <li><NavLink to={'/food-request'}>My Food Request</NavLink></li>
     </>
     return (
         <div className="navbar bg-base-100">
@@ -53,7 +53,16 @@ const Navbar = () => {
             </div>
             <div className="navbar-end space-x-3">
                 {
-                    user ? <><Link onClick={handleLogOut} className="btn">Log Out</Link></> :
+                    user ?
+                        <>
+                            <div className="avatar tooltip tooltip-info tooltip-left" data-tip={user.displayName}>
+                                <div className="ring-primary ring-offset-base-100 w-12 rounded-full ring ring-offset-2">
+                                    <img src={user.photoURL} />
+                                </div>
+                            </div>
+                            <Link onClick={handleLogOut} className="btn">Log Out</Link>
+                        </>
+                        :
                         <>
                             <Link to={'/register'}>Register</Link>
                             <Link to={'/login'} className="btn">Login</Link>

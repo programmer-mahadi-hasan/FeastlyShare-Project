@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import { FaGoogle, FaGithub } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../../Context/AuthContext/AuthContext';
 
 const Login = () => {
-    const { loginUser } = useContext(AuthContext)
+    const { loginUser, googleLogin } = useContext(AuthContext)
+    const navigate = useNavigate();
     const handleLogin = e => {
         e.preventDefault()
         const form = e.target;
@@ -17,6 +18,15 @@ const Login = () => {
             .catch(error => {
                 console.log(error.message)
             })
+    }
+    const handleGoogleLogin = async () => {
+        try {
+            await googleLogin()
+            alert('successfully login with Google')
+            navigate('/')
+        } catch (error) {
+            alert('Google login error!')
+        }
     }
     return (
         <div className="flex flex-col md:flex-row h-screen">
@@ -43,7 +53,7 @@ const Login = () => {
                     </button>
                     <hr className="my-4" />
                     <div className="flex justify-between">
-                        <button className="bg-white text-black border border-zinc-300 rounded py-2 px-4 flex items-center">
+                        <button onClick={handleGoogleLogin} className="bg-white text-black border border-zinc-300 rounded py-2 px-4 flex items-center">
                             <FaGoogle className='mr-2' /> Google
                         </button>
                         <button className="bg-white text-black border border-zinc-300 rounded py-2 px-4 flex items-center">
@@ -55,7 +65,7 @@ const Login = () => {
             </div>
             <div className="hidden md:flex justify-center items-center w-1/2 bg-zinc-100">
                 <div className="text-center">
-                    <h2 className="text-4xl font-bold">Join the largest Designer community in the world.</h2>
+                    <h2 className="text-4xl font-bold">Join the largest Food-sharing community in the world.</h2>
                 </div>
             </div>
         </div>

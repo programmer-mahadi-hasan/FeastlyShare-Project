@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import AuthContext from '../../Context/AuthContext/AuthContext';
 
 const Register = () => {
-    const { createUser } = useContext(AuthContext);
+    const { createUser, googleLogin } = useContext(AuthContext);
     const [passwordError, setPasswordError] = useState("");
-
+    const navigate = useNavigate();
     const handleRegister = (e) => {
         e.preventDefault();
         const form = e.target;
@@ -36,6 +36,15 @@ const Register = () => {
                 console.log(error.message)
             })
     };
+    const handleGoogleLogin = async () => {
+        try {
+            await googleLogin()
+            alert('successfully login with Google')
+            navigate('/')
+        } catch (error) {
+            alert('Google login error!')
+        }
+    }
 
     return (
         <div className="flex flex-col md:flex-row h-screen">
@@ -94,7 +103,7 @@ const Register = () => {
                     <div className="mt-4 text-center">
                         <span className="text-sm text-muted-foreground">Or continue with</span>
                         <div className="flex justify-between">
-                            <button className="bg-white text-black border border-zinc-300 rounded py-2 px-4 flex items-center">
+                            <button onClick={handleGoogleLogin} className="bg-white text-black border border-zinc-300 rounded py-2 px-4 flex items-center">
                                 <FaGoogle className="mr-2" /> Google
                             </button>
                             <button className="bg-white text-black border border-zinc-300 rounded py-2 px-4 flex items-center">
