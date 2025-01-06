@@ -44,7 +44,7 @@ const Navbar = () => {
                         {Links}
                     </ul>
                 </div>
-                <Link to={'/'} className="btn btn-ghost text-xl">FeastlyShare</Link>
+                <Link to={'/'} className="btn btn-ghost text-xl">Feastly<span className='text-orange-500'>Share</span></Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
@@ -56,7 +56,7 @@ const Navbar = () => {
                     user ?
                         <>
                             <div className="avatar tooltip tooltip-info tooltip-left" data-tip={user.displayName}>
-                                <div className="ring-primary ring-offset-base-100 w-12 rounded-full ring ring-offset-2">
+                                <div className="ring-orange-500 ring-offset-base-100 w-12 rounded-full ring ring-offset-2">
                                     <img src={user.photoURL} />
                                 </div>
                             </div>
