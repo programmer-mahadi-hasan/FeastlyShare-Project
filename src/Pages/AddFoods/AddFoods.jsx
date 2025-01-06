@@ -3,7 +3,6 @@ import AuthContext from '../../Context/AuthContext/AuthContext';
 
 const AddFoods = () => {
     const { user } = useContext(AuthContext);
-    // Form state
     const [formData, setFormData] = useState({
         foodName: "",
         foodImage: "",
@@ -27,7 +26,20 @@ const AddFoods = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Form Data Submitted:", formData);
-        // Add logic to send form data to your backend or database
+        fetch('http://localhost:5000/foods', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.insertedId) {
+                    alert('data added to DB')
+                    console.log(data)
+                }
+            })
     };
     return (
         <section className="bg-gray-50 py-10 px-5">
