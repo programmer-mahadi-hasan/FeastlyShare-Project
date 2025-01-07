@@ -1,12 +1,31 @@
 import React, { useContext, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import AuthContext from '../../Context/AuthContext/AuthContext';
+import { toast } from 'react-toastify';
 
 const FoodDetails = () => {
     const food = useLoaderData();
     const { user } = useContext(AuthContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const currentDate = new Date().toLocaleString();
+    const [formData, setFormData] = useState({
+        foodName: `${food.foodName}`,
+        foodImage: `${food.foodImage}`,
+        foodQuantity: `${food.foodQuantity}`,
+        pickupLocation: `${food.pickupLocation}`,
+        expiryDateTime: `${food.expiryDateTime}`,
+        additionalNotes: "",
+        donatorName: `${food.donatorName}`,
+        donatorEmail: `${food.donatorEmail}`,
+        donatorImage: `${food.donatorImage}`,
+        requestDate: `${currentDate}`,
+        foodStatus: "requested",
+    });
+    // Handle note input changes
+    const handleNoteChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
     const loggedInUserEmail = `${user?.email}`;
 
     const handleRequestButtonClick = () => {
@@ -17,7 +36,14 @@ const FoodDetails = () => {
         setIsModalOpen(false);
     };
 
-    const currentDate = new Date().toLocaleString();
+
+    // handle request food
+    const handleRequestFood = e => {
+        e.preventDefault();
+        console.log('request food data:', formData)
+        toast.success('Food added to the request food list')
+        handleCloseModal()
+    }
 
     return (
         <div className="max-w-3xl mx-auto bg-card rounded-lg shadow-lg overflow-hidden p-6 my-6">
@@ -54,7 +80,7 @@ const FoodDetails = () => {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-auto">
                         <h2 className="text-lg font-semibold mb-4">Food Request</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <form onSubmit={handleRequestFood} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium">Food Name</label>
@@ -96,23 +122,23 @@ const FoodDetails = () => {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium">Additional Notes</label>
-                                    <textarea className="w-full border rounded px-3 py-2" rows="3" placeholder="Enter any additional notes"></textarea>
+                                    <textarea className="w-full border rounded px-3 py-2" onChange={handleNoteChange} value={formData.additionalNotes} name="additionalNotes" rows="3" placeholder="Enter any additional notes"></textarea>
                                 </div>
                             </div>
-                        </div>
-                        <div className="mt-6 flex justify-end space-x-4">
-                            <button
-                                onClick={handleCloseModal}
-                                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
-                            >
-                                Submit Request
-                            </button>
-                        </div>
+                            <div className="mt-6 flex justify-end col-span-2 space-x-4">
+                                <button
+                                    onClick={handleCloseModal}
+                                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                                >
+                                    Cancel
+                                </button>
+                                <button type='submit'
+                                    className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
+                                >
+                                    Submit Request
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}
