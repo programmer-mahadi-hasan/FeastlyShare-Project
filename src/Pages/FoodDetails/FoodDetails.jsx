@@ -41,7 +41,20 @@ const FoodDetails = () => {
     const handleRequestFood = e => {
         e.preventDefault();
         console.log('request food data:', formData)
-        toast.success('Food added to the request food list')
+        fetch('http://localhost:5000/request-foods', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.insertedId) {
+                    toast.info(`You have added a ${food.foodName} to the Requested food list.`);
+                    console.log(data);
+                }
+            });
         handleCloseModal()
     }
 
