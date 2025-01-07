@@ -1,9 +1,11 @@
 import React, { useContext, useState } from 'react';
 import AuthContext from '../../Context/AuthContext/AuthContext';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const AddFoods = () => {
     const { user } = useContext(AuthContext);
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         foodName: "",
         foodImage: "",
@@ -38,6 +40,7 @@ const AddFoods = () => {
             .then(data => {
                 if (data.insertedId) {
                     toast.info('You have added a food');
+                    navigate('/')
                     console.log(data);
                 }
             });

@@ -6,6 +6,7 @@ import slider1 from '../assets/slider_1.jpeg';
 import slider2 from '../assets/slider_2.jpeg';
 import slider3 from '../assets/slider_3.jpeg';
 import slider4 from '../assets/slider_4.jpeg';
+import { Link } from 'react-router-dom';
 
 const settings = {
     dots: true,
@@ -26,9 +27,9 @@ const Banner = () => {
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center">
                     <h1 className="text-6xl font-bold text-orange-500 mb-4">Sharing is Caring</h1>
                     <p className="text-xl text-white mb-6">Join hands to share meals and smiles in your community.</p>
-                    <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
+                    <Link to={'/available-foods'} className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
                         Food Menu
-                    </button>
+                    </Link>
                 </div>
             </div>
             <div className="relative h-screen">
@@ -36,9 +37,9 @@ const Banner = () => {
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center">
                     <h1 className="text-6xl font-bold text-orange-500 mb-4">Share with Your Community</h1>
                     <p className="text-xl text-white mb-6">Build stronger bonds by sharing meals with those around you.</p>
-                    <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
+                    <Link to={'/available-foods'} className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
                         Food Menu
-                    </button>
+                    </Link>
                 </div>
             </div>
             <div className="relative h-screen">
@@ -46,9 +47,9 @@ const Banner = () => {
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center">
                     <h1 className="text-6xl font-bold text-orange-500 mb-4">Connecting Through Food</h1>
                     <p className="text-xl text-white mb-6">Create moments of joy and connection by sharing meals.</p>
-                    <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
+                    <Link to={'/available-foods'} className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
                         Food Menu
-                    </button>
+                    </Link>
                 </div>
             </div>
             <div className="relative h-screen">
@@ -56,9 +57,9 @@ const Banner = () => {
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center">
                     <h1 className="text-6xl font-bold text-orange-500 mb-4">Share the Love</h1>
                     <p className="text-xl text-white mb-6">Spread happiness by giving the gift of delicious food.</p>
-                    <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
+                    <Link to={'/available-foods'} className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
                         Food Menu
-                    </button>
+                    </Link>
                 </div>
             </div>
         </Slider>
