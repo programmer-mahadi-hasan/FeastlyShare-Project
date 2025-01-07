@@ -10,7 +10,7 @@ const FoodCard = ({ food }) => {
                         <h2 className="text-lg font-semibold text-foreground">{food.foodName}</h2>
                         <p className="text-muted-foreground text-sm mt-2">{food.additionalNotes}..</p>
                         <div className="flex items-center justify-between mt-4">
-                            <span className="text-muted-foreground text-xs">May 23, 2023</span>
+                            <span className="text-muted-foreground text-xs">Exp: {food.expiryDateTime.slice(0, 10)}</span>
                             <span className="text-muted-foreground text-xs">Quantity: {food.foodQuantity} Servings</span>
                         </div>
                     </div>
