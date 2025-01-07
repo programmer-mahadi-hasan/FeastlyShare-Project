@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import AuthContext from '../../Context/AuthContext/AuthContext';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
     const { user, logOutUser } = useContext(AuthContext)
     const handleLogOut = () => {
         logOutUser()
             .then(() => {
-                console.log('Successfully log out.')
+                toast.warning('You have been loged out!')
             })
             .catch(error => {
                 console.log('log out failed!')

@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import AuthContext from '../../Context/AuthContext/AuthContext';
+import { toast } from 'react-toastify';
 
 const AddFoods = () => {
     const { user } = useContext(AuthContext);
@@ -36,25 +37,26 @@ const AddFoods = () => {
             .then(res => res.json())
             .then(data => {
                 if (data.insertedId) {
-                    alert('data added to DB')
-                    console.log(data)
+                    toast.info('You have added a food');
+                    console.log(data);
                 }
-            })
+            });
     };
+
     return (
         <section className="bg-gray-50 py-10 px-5">
             <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
-                <h2 className="text-2xl font-bold mb-6 text-center">Add Food</h2>
+                <h2 className="text-2xl text-orange-500 font-bold mb-6 text-center">Add Food</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Food Name */}
                     <div>
-                        <label className="block text-sm font-medium mb-1">Food Name</label>
+                        <label className="block text-sm font-medium mb-1 text-orange-500">Food Name</label>
                         <input
                             type="text"
                             name="foodName"
                             value={formData.foodName}
                             onChange={handleChange}
-                            className="w-full border-gray-300 rounded-lg p-2"
+                            className="w-full border border-orange-400 rounded-lg p-2"
                             placeholder="Enter food name"
                             required
                         />
@@ -62,13 +64,13 @@ const AddFoods = () => {
 
                     {/* Food Image */}
                     <div>
-                        <label className="block text-sm font-medium mb-1">Food Image URL</label>
+                        <label className="block text-sm font-medium mb-1 text-orange-500">Food Image URL</label>
                         <input
                             type="url"
                             name="foodImage"
                             value={formData.foodImage}
                             onChange={handleChange}
-                            className="w-full border-gray-300 rounded-lg p-2"
+                            className="w-full border border-orange-400 rounded-lg p-2"
                             placeholder="Enter image URL"
                             required
                         />
@@ -76,13 +78,13 @@ const AddFoods = () => {
 
                     {/* Food Quantity */}
                     <div>
-                        <label className="block text-sm font-medium mb-1">Food Quantity</label>
+                        <label className="block text-sm font-medium mb-1 text-orange-500">Food Quantity</label>
                         <input
                             type="number"
                             name="foodQuantity"
                             value={formData.foodQuantity}
                             onChange={handleChange}
-                            className="w-full border-gray-300 rounded-lg p-2"
+                            className="w-full border border-orange-400 rounded-lg p-2"
                             placeholder="Enter quantity (e.g., 2 plates)"
                             required
                         />
@@ -90,13 +92,13 @@ const AddFoods = () => {
 
                     {/* Pickup Location */}
                     <div>
-                        <label className="block text-sm font-medium mb-1">Pickup Location</label>
+                        <label className="block text-sm font-medium mb-1 text-orange-500">Pickup Location</label>
                         <input
                             type="text"
                             name="pickupLocation"
                             value={formData.pickupLocation}
                             onChange={handleChange}
-                            className="w-full border-gray-300 rounded-lg p-2"
+                            className="w-full border border-orange-400 rounded-lg p-2"
                             placeholder="Enter pickup location"
                             required
                         />
@@ -104,31 +106,45 @@ const AddFoods = () => {
 
                     {/* Expiry Date/Time */}
                     <div>
-                        <label className="block text-sm font-medium mb-1">Expiry Date/Time</label>
+                        <label className="block text-sm font-medium mb-1 text-orange-500">Expiry Date/Time</label>
                         <input
                             type="datetime-local"
                             name="expiryDateTime"
                             value={formData.expiryDateTime}
                             onChange={handleChange}
-                            className="w-full border-gray-300 rounded-lg p-2"
+                            className="w-full border border-orange-400 rounded-lg p-2"
                             required
                         />
                     </div>
 
                     {/* Additional Notes */}
                     <div>
-                        <label className="block text-sm font-medium mb-1">Additional Notes</label>
+                        <label className="block text-sm font-medium mb-1 text-orange-500">Additional Notes</label>
                         <textarea
                             name="additionalNotes"
                             value={formData.additionalNotes}
                             onChange={handleChange}
-                            className="w-full border-gray-300 rounded-lg p-2"
+                            className="w-full border border-orange-400 rounded-lg p-2"
                             placeholder="Add any notes about the food (e.g., allergies, storage instructions)"
                         />
                     </div>
 
+                    {/* Food Status */}
+                    <div>
+                        <label className="block text-sm font-medium mb-1 text-orange-500">Food Status</label>
+                        <select
+                            name="foodStatus"
+                            value={formData.foodStatus}
+                            onChange={handleChange}
+                            className="w-full border border-orange-400 rounded-lg p-2"
+                        >
+                            <option value="available">Available</option>
+                            <option value="unavailable">Unavailable</option>
+                        </select>
+                    </div>
+
                     {/* Donator Info */}
-                    <div className="flex items-center space-x-4 bg-gray-100 p-4 rounded-lg">
+                    <div className="flex border border-orange-400 items-center space-x-4 bg-gray-100 p-4 rounded-lg">
                         <img
                             src={formData.donatorImage}
                             alt={formData.donatorName}

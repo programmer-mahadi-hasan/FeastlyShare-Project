@@ -2,12 +2,13 @@ import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import AuthContext from '../../Context/AuthContext/AuthContext';
+import { toast } from 'react-toastify';
 
 const Register = () => {
     const { createUser, googleLogin } = useContext(AuthContext);
     const [passwordError, setPasswordError] = useState("");
     const navigate = useNavigate();
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
         const form = e.target;
         const name = form.name.value;
@@ -26,23 +27,23 @@ const Register = () => {
         }
         setPasswordError("");
 
-        const newUser = { name, photoUrl, email, password };
-        console.log(newUser);
-        createUser(email, password)
-            .then(result => {
-                console.log(result.user)
-            })
-            .catch(error => {
-                console.log(error.message)
-            })
+        try {
+            await createUser(email, password, name, photoUrl);
+            toast.success("You have successfully created an account");
+            navigate("/");
+        } catch (error) {
+            console.error("Error during registration:", error.message);
+            toast.error(error.message);
+        }
     };
+
     const handleGoogleLogin = async () => {
         try {
             await googleLogin()
-            alert('successfully login with Google')
+            toast.success('successfully login with Google')
             navigate('/')
         } catch (error) {
-            alert('Google login error!')
+            toast.error('Google login error!')
         }
     }
 
