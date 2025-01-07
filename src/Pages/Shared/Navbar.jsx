@@ -19,7 +19,7 @@ const Navbar = () => {
         <li><NavLink to={'/available-foods'}>Available Foods</NavLink></li>
         <li><NavLink to={'/add-foods'}>Add Food</NavLink></li>
         <li><NavLink to={'/manage-foods'}>Manage My Foods</NavLink></li>
-        <li><NavLink to={'/food-request'}>My Food Request</NavLink></li>
+        <li><NavLink to={'/request-foods'}>My Request Foods</NavLink></li>
     </>
     return (
         <div className="navbar bg-base-100">
@@ -45,7 +45,9 @@ const Navbar = () => {
                         {Links}
                     </ul>
                 </div>
-                <Link to={'/'} className="btn btn-ghost text-xl">Feastly<span className='text-orange-500'>Share</span></Link>
+                <Link to={'/'} className="btn btn-ghost text-xl">
+                    Feastly<span className='text-orange-500'>Share</span>
+                </Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
