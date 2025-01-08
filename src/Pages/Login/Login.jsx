@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
-import { FaGoogle, FaGithub } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
+import { FaGoogle } from 'react-icons/fa';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import AuthContext from '../../Context/AuthContext/AuthContext';
 import { toast } from 'react-toastify';
 
 const Login = () => {
     const { loginUser, googleLogin } = useContext(AuthContext)
     const navigate = useNavigate();
+    const location = useLocation();
     const handleLogin = e => {
         e.preventDefault()
         const form = e.target;
@@ -16,7 +17,7 @@ const Login = () => {
             .then(result => {
                 console.log(result.user)
                 result.user && toast.success('Successfully loged in')
-                navigate('/')
+                navigate(location.state ? location.state : "/")
             })
             .catch(error => {
                 console.log(error.message)
@@ -34,7 +35,7 @@ const Login = () => {
     }
     return (
         <div className="flex flex-col md:flex-row h-screen">
-            <div className="flex flex-col justify-center items-center w-full md:w-1/2 bg-zinc-50 p-8">
+            <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-8">
                 <h1 className="text-3xl font-bold mb-6">Sign in</h1>
                 <form onSubmit={handleLogin} className="w-full max-w-sm">
                     <div className="mb-4">
@@ -64,7 +65,7 @@ const Login = () => {
                 </div>
                 <p className="mt-4 text-sm text-zinc-600">Not a member? <Link to={'/register'} className="text-blue-500">Sign up now</Link></p>
             </div>
-            <div className="hidden md:flex justify-center items-center w-1/2 bg-zinc-100">
+            <div className="hidden md:flex justify-center items-center w-1/2">
                 <div className="text-center">
                     <h2 className="text-4xl font-bold">Join the largest Food-sharing community in the world.</h2>
                 </div>

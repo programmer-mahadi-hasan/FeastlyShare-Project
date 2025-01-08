@@ -14,7 +14,7 @@ const FeaturedFoods = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     return (
-        <div className="py-12 px-6 bg-gray-100">
+        <div className="py-12 px-6">
             <h2 className="text-4xl font-bold text-center text-orange-500 mb-8">Featured Foods</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {foods.map(food => <FoodCard key={food._id} food={food}></FoodCard>)}

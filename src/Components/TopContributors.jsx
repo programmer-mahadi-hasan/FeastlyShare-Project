@@ -40,7 +40,7 @@ const TopContributors = () => {
         },
     ];
     return (
-        <section className="bg-gray-50 py-10 px-5">
+        <section className=" py-10 px-5">
             <div className="max-w-6xl mx-auto text-center">
                 <h2 className="text-3xl font-bold mb-6">Top Contributors</h2>
                 <p className="text-lg text-gray-600 mb-8">

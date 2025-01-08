@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const HowItWorks = () => {
     return (
-        <section className="bg-gray-100 py-10 px-5">
+        <section className=" py-10 px-5">
             <div className="max-w-5xl mx-auto text-center">
                 <h2 className="text-3xl font-bold mb-6">How It Works</h2>
                 <p className="text-lg text-gray-600 mb-8">

@@ -43,7 +43,7 @@ const AvailableFoods = () => {
     };
 
     return (
-        <div className="py-12 px-6 bg-gray-100">
+        <div className="py-12 px-6 ">
             <h2 className="text-4xl font-bold text-center text-orange-500 mb-8">All Available Foods</h2>
 
             <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
