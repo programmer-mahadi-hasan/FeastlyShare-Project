@@ -103,12 +103,9 @@ const Register = () => {
                     </form>
                     <div className="mt-4 text-center">
                         <span className="text-sm text-muted-foreground">Or continue with</span>
-                        <div className="flex justify-between">
+                        <div className='flex justify-center mt-2'>
                             <button onClick={handleGoogleLogin} className="bg-white text-black border border-zinc-300 rounded py-2 px-4 flex items-center">
                                 <FaGoogle className="mr-2" /> Google
-                            </button>
-                            <button className="bg-white text-black border border-zinc-300 rounded py-2 px-4 flex items-center">
-                                <FaGithub className="mr-2" /> GitHub
                             </button>
                         </div>
                     </div>

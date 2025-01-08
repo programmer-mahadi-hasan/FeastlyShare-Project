@@ -56,15 +56,12 @@ const Login = () => {
                         Sign in
                     </button>
                     <hr className="my-4" />
-                    <div className="flex justify-between">
-                        <button onClick={handleGoogleLogin} className="bg-white text-black border border-zinc-300 rounded py-2 px-4 flex items-center">
-                            <FaGoogle className='mr-2' /> Google
-                        </button>
-                        <button className="bg-white text-black border border-zinc-300 rounded py-2 px-4 flex items-center">
-                            <FaGithub className='mr-2' /> GitHub
-                        </button>
-                    </div>
                 </form>
+                <div>
+                    <button onClick={handleGoogleLogin} className="bg-white text-black border border-zinc-300 rounded py-2 px-4 flex items-center">
+                        <FaGoogle className='mr-2' /> Google
+                    </button>
+                </div>
                 <p className="mt-4 text-sm text-zinc-600">Not a member? <Link to={'/register'} className="text-blue-500">Sign up now</Link></p>
             </div>
             <div className="hidden md:flex justify-center items-center w-1/2 bg-zinc-100">
