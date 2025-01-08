@@ -1,85 +1,87 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import AuthContext from '../../Context/AuthContext/AuthContext';
 import Loading from '../Loading/Loading';
-import Swal from 'sweetalert2';
+
+const fetchFoods = async (email) => {
+    const response = await fetch(`http://localhost:5000/foods/added-foods?donatorEmail=${encodeURIComponent(email)}`);
+    if (!response.ok) throw new Error('Failed to fetch foods');
+    return response.json();
+};
 
 const ManageFoods = () => {
-    const { user, loading, setLoading } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const loggedInUserEmail = user?.email;
-    const [addedFoods, setAddedFoods] = useState([]);
+    const queryClient = useQueryClient();
     const [selectedFood, setSelectedFood] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
-    useEffect(() => {
-        if (loggedInUserEmail) {
-            fetch(`http://localhost:5000/foods/added-foods?donatorEmail=${encodeURIComponent(loggedInUserEmail)}`)
-                .then((res) => res.json())
-                .then((data) => {
-                    setAddedFoods(data);
-                    setLoading(false);
-                })
-                .catch((error) => {
-                    console.error('Error fetching foods:', error);
-                    setLoading(false);
-                });
+    // Fetching foods
+    const { data: addedFoods = [], isLoading, isError } = useQuery(
+        ['addedFoods', loggedInUserEmail],
+        () => fetchFoods(loggedInUserEmail),
+        {
+            enabled: !!loggedInUserEmail,
         }
-    }, [loggedInUserEmail]);
+    );
 
-    if (loading) {
-        return <Loading />;
-    }
+    // Mutation for updating food
+    const updateFoodMutation = useMutation(
+        (updatedFood) =>
+            fetch(`http://localhost:5000/foods/${updatedFood._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedFood),
+            }),
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(['addedFoods']); // Refetch foods
+                toast.success('Food updated successfully!');
+                setShowModal(false);
+            },
+            onError: () => {
+                toast.error('Failed to update food. Please try again.');
+            },
+        }
+    );
 
-    const handleDelete = (id) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                fetch(`http://localhost:5000/foods/${id}`, {
-                    method: 'DELETE',
-                })
-                    .then((res) => res.json())
-                    .then(() => {
-                        setAddedFoods((prevFoods) => prevFoods.filter((food) => food._id !== id));
-                    })
-                    .catch((error) => console.error('Error deleting food:', error));
-                Swal.fire({
-                    title: "Deleted!",
-                    text: "Your food has been deleted.",
-                    icon: "success"
-                });
-            }
-        });
-    };
+    // Mutation for deleting food
+    const deleteFoodMutation = useMutation(
+        (id) =>
+            fetch(`http://localhost:5000/foods/${id}`, {
+                method: 'DELETE',
+            }),
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(['addedFoods']);
+                toast.success('Food deleted successfully!');
+            },
+            onError: () => {
+                toast.error('Failed to delete food.');
+            },
+        }
+    );
 
     const handleUpdate = (food) => {
         setSelectedFood(food);
         setShowModal(true);
     };
 
-    const handleSaveUpdate = (e) => {
-        e.preventDefault()
-        fetch(`http://localhost:5000/foods/${selectedFood._id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(selectedFood),
-        })
-            .then((res) => res.json())
-            .then(() => {
-                setAddedFoods((prevFoods) =>
-                    prevFoods.map((food) => (food._id === selectedFood._id ? selectedFood : food))
-                );
-                setShowModal(false);
-            })
-            .catch((error) => console.error('Error updating food:', error));
+    const handleSaveUpdate = (event) => {
+        event.preventDefault();
+        updateFoodMutation.mutate(selectedFood);
     };
+
+    const handleDelete = (id) => {
+        deleteFoodMutation.mutate(id);
+    };
+
+    if (isLoading) return <Loading />;
+    if (isError) return <p className="text-red-500">Failed to load foods.</p>;
 
     return (
         <div>
@@ -100,19 +102,7 @@ const ManageFoods = () => {
                         <tbody>
                             {addedFoods.map((food) => (
                                 <tr key={food._id}>
-                                    <td>
-                                        <div className="flex items-center gap-3">
-                                            <div className="avatar">
-                                                <div className="mask mask-squircle h-12 w-12">
-                                                    <img src={food.foodImage} alt={food.foodName} />
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div className="font-bold">{food.foodName}</div>
-                                                <div className="text-sm opacity-50">{food.pickupLocation}</div>
-                                            </div>
-                                        </div>
-                                    </td>
+                                    <td>{food.foodName}</td>
                                     <td>{food.additionalNotes}</td>
                                     <td>{new Date(food.expiryDateTime).toLocaleDateString()}</td>
                                     <td>
@@ -135,11 +125,13 @@ const ManageFoods = () => {
                     </table>
                 </div>
             )}
+
             {showModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
                         <h3 className="font-bold text-lg">Update Food</h3>
                         <form onSubmit={handleSaveUpdate}>
+                            {/* Form Fields Here */}
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Food Name</span>
@@ -154,58 +146,14 @@ const ManageFoods = () => {
                                     required
                                 />
                             </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Additional Notes</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    value={selectedFood?.additionalNotes || ''}
-                                    onChange={(e) =>
-                                        setSelectedFood({ ...selectedFood, additionalNotes: e.target.value })
-                                    }
-                                    className="input input-bordered"
-                                    required
-                                />
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Expiry Date</span>
-                                </label>
-                                <input
-                                    type="date"
-                                    value={selectedFood?.expiryDateTime?.split('T')[0] || ''}
-                                    onChange={(e) =>
-                                        setSelectedFood({
-                                            ...selectedFood,
-                                            expiryDateTime: new Date(e.target.value).toISOString(),
-                                        })
-                                    }
-                                    className="input input-bordered"
-                                    required
-                                />
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Food Image URL</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    value={selectedFood?.foodImage || ''}
-                                    onChange={(e) =>
-                                        setSelectedFood({ ...selectedFood, foodImage: e.target.value })
-                                    }
-                                    className="input input-bordered"
-                                    required
-                                />
-                            </div>
+                            {/* Other fields */}
                             <div className="flex justify-end mt-4">
-                                <button type="submit" className="btn btn-primary mr-2">
+                                <button type="submit" className="btn text-white bg-orange-500 hover:bg-orange-700 mr-2">
                                     Save
                                 </button>
                                 <button
                                     type="button"
-                                    className="btn btn-secondary"
+                                    className="btn bg-slate-400"
                                     onClick={() => setShowModal(false)}
                                 >
                                     Cancel
@@ -215,8 +163,7 @@ const ManageFoods = () => {
                     </div>
                 </div>
             )}
-
-
+            <ToastContainer />
         </div>
     );
 };
