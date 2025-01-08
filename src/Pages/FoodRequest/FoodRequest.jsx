@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from '../../Context/AuthContext/AuthContext';
+import Loading from '../Loading/Loading';
 
 const FoodRequest = () => {
     const { user } = useContext(AuthContext);
@@ -24,7 +25,7 @@ const FoodRequest = () => {
     }, [loggedInUserEmail]);
 
     if (loading) {
-        return <p className="text-center text-orange-400">Loading...</p>;
+        return <Loading />;
     }
 
     return (
