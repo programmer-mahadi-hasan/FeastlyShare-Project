@@ -3,10 +3,9 @@ import AuthContext from '../../Context/AuthContext/AuthContext';
 import Loading from '../Loading/Loading';
 
 const FoodRequest = () => {
-    const { user } = useContext(AuthContext);
+    const { user, loading, setLoading } = useContext(AuthContext);
     const loggedInUserEmail = user?.email || '';
     const [requestedFoods, setRequestedFoods] = useState([]);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (loggedInUserEmail) {
