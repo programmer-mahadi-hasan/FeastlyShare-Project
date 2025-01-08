@@ -1,44 +1,56 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import AuthContext from '../../Context/AuthContext/AuthContext';
 
 const FoodRequest = () => {
+    const { user } = useContext(AuthContext);
+    const loggedInUserEmail = user?.email || '';
     const [requestedFoods, setRequestedFoods] = useState([]);
-    useEffect(() => {
-        fetch('http://localhost:5000/foods/requested')
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('Requested Foods:', data);
-                setRequestedFoods(data)
-            })
-            .catch((error) => console.error('Error fetching requested foods:', error));
+    const [loading, setLoading] = useState(true);
 
-    }, [])
-    console.log(requestedFoods)
+    useEffect(() => {
+        if (loggedInUserEmail) {
+            fetch(`http://localhost:5000/foods/requested?userEmail=${encodeURIComponent(loggedInUserEmail)}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('Requested Foods:', data);
+                    setRequestedFoods(data);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.error('Error fetching requested foods:', error);
+                    setLoading(false);
+                });
+        }
+    }, [loggedInUserEmail]);
+
+    if (loading) {
+        return <p className="text-center text-orange-400">Loading...</p>;
+    }
+
     return (
         <div>
-            <h1 className='text-2xl font-bold text-orange-400 text-center'>Requested Foods</h1>
-            <div className="overflow-x-auto">
-                <table className="table">
-                    {/* head */}
-                    <thead>
-                        <tr>
-                            <th>Donar Name</th>
-                            <th>Additional Notes</th>
-                            <th>Expire Date</th>
-                            <th>Requested Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* row  */}
-                        {
-                            requestedFoods.map(food =>
+            <h1 className="text-2xl font-bold text-orange-400 text-center">Requested Foods</h1>
+            {requestedFoods.length === 0 ? (
+                <p className="text-center text-muted-foreground">No requested foods found.</p>
+            ) : (
+                <div className="overflow-x-auto">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Donor Name</th>
+                                <th>Additional Notes</th>
+                                <th>Expire Date</th>
+                                <th>Requested Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {requestedFoods.map((food) => (
                                 <tr key={food._id}>
                                     <td>
                                         <div className="flex items-center gap-3">
                                             <div className="avatar">
                                                 <div className="mask mask-squircle h-12 w-12">
-                                                    <img
-                                                        src={food.foodImage}
-                                                        alt={food.foodName} />
+                                                    <img src={food.foodImage} alt={food.foodName} />
                                                 </div>
                                             </div>
                                             <div>
@@ -47,28 +59,23 @@ const FoodRequest = () => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td>
-                                        {food.additionalNotes}
-                                    </td>
-                                    <td>{food.expiryDateTime.slice(0, 10)}</td>
-                                    <td>
-                                        {food.requestDate.slice(0, 8)}
-                                    </td>
+                                    <td>{food.additionalNotes}</td>
+                                    <td>{new Date(food.expiryDateTime).toLocaleDateString()}</td>
+                                    <td>{new Date(food.requestDate).toLocaleDateString()}</td>
                                 </tr>
-                            )
-                        }
-                    </tbody>
-                    {/* foot */}
-                    <tfoot>
-                        <tr>
-                            <th>Donar Name</th>
-                            <th>Additional Notes</th>
-                            <th>Expire Date</th>
-                            <th>Requested Date</th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
+                            ))}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Donor Name</th>
+                                <th>Additional Notes</th>
+                                <th>Expire Date</th>
+                                <th>Requested Date</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            )}
         </div>
     );
 };
