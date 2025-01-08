@@ -41,20 +41,29 @@ const FoodDetails = () => {
     const handleRequestFood = e => {
         e.preventDefault();
         console.log('request food data:', formData)
-        fetch('http://localhost:5000/request-foods', {
-            method: 'POST',
+        fetch(`http://localhost:5000/foods/${food._id}`, {
+            method: 'PATCH',
             headers: {
-                'content-type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify({
+                foodStatus: formData.foodStatus,
+                additionalNotes: formData.additionalNotes,
+                requestDate: formData.requestDate,
+                userEmail: loggedInUserEmail,
+            }),
         })
-            .then(res => res.json())
-            .then(data => {
-                if (data.insertedId) {
-                    toast.info(`You have added a ${food.foodName} to the Requested food list.`);
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.modifiedCount > 0) {
+                    toast.info(`You have successfully requested ${food.foodName}.`);
                     console.log(data);
+                } else {
+                    toast.error('Failed to request food. Please try again.');
                 }
-            });
+            })
+            .catch((error) => console.error('Error updating food:', error));
+
         handleCloseModal()
     }
 
