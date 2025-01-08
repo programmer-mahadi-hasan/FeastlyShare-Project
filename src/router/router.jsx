@@ -9,12 +9,13 @@ import ManageFoods from "../Pages/ManageFoods/ManageFoods";
 import FoodRequest from "../Pages/FoodRequest/FoodRequest";
 import FoodDetails from "../Pages/FoodDetails/FoodDetails";
 import PrivateRoute from "./PrivateRoute";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <MainLayout />,
-        errorElement: <h1 className="text-5xl text-orange-500 font-extrabold text-center">Error Page not found!</h1>,
+        errorElement: <ErrorPage />,
         children: [
             {
                 path: '/',
