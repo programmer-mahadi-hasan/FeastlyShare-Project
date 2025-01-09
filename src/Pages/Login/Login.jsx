@@ -3,6 +3,7 @@ import { FaGoogle } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import AuthContext from '../../Context/AuthContext/AuthContext';
 import { toast } from 'react-toastify';
+// import axios from 'axios';
 
 const Login = () => {
     const { loginUser, googleLogin } = useContext(AuthContext)
@@ -16,6 +17,11 @@ const Login = () => {
         loginUser(email, password)
             .then(result => {
                 console.log(result.user)
+                // const user = { email: email }
+                // axios.post('http://localhost:5000/jwt', user, { withCredentials: true })
+                //     .then(res => {
+                //         console.log(res.data)
+                //     })
                 result.user && toast.success('Successfully loged in')
                 navigate(location.state ? location.state : "/")
             })
