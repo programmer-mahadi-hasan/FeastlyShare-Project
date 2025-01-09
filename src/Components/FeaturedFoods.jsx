@@ -5,7 +5,7 @@ import FoodCard from './FoodCard';
 const FeaturedFoods = () => {
     const [loadedFoods, setLoadedFoods] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:5000/foods')
+        fetch('https://feastly-share-server.vercel.app/foods')
             .then(res => res.json())
             .then(data => setLoadedFoods(data))
     }, [])

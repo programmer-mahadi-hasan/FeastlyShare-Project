@@ -32,14 +32,14 @@ const router = createBrowserRouter([
             {
                 path: 'available-foods',
                 element: <AvailableFoods />,
-                loader: () => fetch('http://localhost:5000/foods')
+                loader: () => fetch('https://feastly-share-server.vercel.app/foods')
             },
             {
                 path: 'food/:id',
                 element: <PrivateRoute>
                     <FoodDetails />
                 </PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5000/food/${params.id}`)
+                loader: ({ params }) => fetch(`https://feastly-share-server.vercel.app/food/${params.id}`)
             },
             {
                 path: 'add-foods',

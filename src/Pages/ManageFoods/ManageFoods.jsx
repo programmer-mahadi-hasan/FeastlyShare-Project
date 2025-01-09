@@ -6,7 +6,7 @@ import Loading from '../Loading/Loading';
 import Swal from 'sweetalert2';
 
 const fetchFoods = async (email) => {
-    const response = await fetch(`http://localhost:5000/foods/added-foods?donatorEmail=${encodeURIComponent(email)}`);
+    const response = await fetch(`https://feastly-share-server.vercel.app/foods/added-foods?donatorEmail=${encodeURIComponent(email)}`);
     if (!response.ok) throw new Error('Failed to fetch foods');
     return response.json();
 };
@@ -28,7 +28,7 @@ const ManageFoods = () => {
     // Mutation for updating food
     const updateFoodMutation = useMutation({
         mutationFn: (updatedFood) =>
-            fetch(`http://localhost:5000/foods/${updatedFood._id}`, {
+            fetch(`https://feastly-share-server.vercel.app/foods/${updatedFood._id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updatedFood),
@@ -46,7 +46,7 @@ const ManageFoods = () => {
     // Mutation for deleting food
     const deleteFoodMutation = useMutation({
         mutationFn: (id) =>
-            fetch(`http://localhost:5000/foods/${id}`, {
+            fetch(`https://feastly-share-server.vercel.app/foods/${id}`, {
                 method: 'DELETE',
             }),
         onSuccess: () => {

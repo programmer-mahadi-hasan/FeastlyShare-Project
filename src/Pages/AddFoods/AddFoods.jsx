@@ -29,7 +29,7 @@ const AddFoods = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Form Data Submitted:", formData);
-        fetch('http://localhost:5000/foods', {
+        fetch('https://feastly-share-server.vercel.app/foods', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

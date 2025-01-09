@@ -9,7 +9,7 @@ const FoodRequest = () => {
 
     useEffect(() => {
         if (loggedInUserEmail) {
-            fetch(`http://localhost:5000/foods/requested?userEmail=${encodeURIComponent(loggedInUserEmail)}`)
+            fetch(`https://feastly-share-server.vercel.app/foods/requested?userEmail=${encodeURIComponent(loggedInUserEmail)}`)
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('Requested Foods:', data);

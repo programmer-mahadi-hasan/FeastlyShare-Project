@@ -41,7 +41,7 @@ const FoodDetails = () => {
     const handleRequestFood = e => {
         e.preventDefault();
         console.log('request food data:', formData)
-        fetch(`http://localhost:5000/foods/${food._id}`, {
+        fetch(`https://feastly-share-server.vercel.app/foods/${food._id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
