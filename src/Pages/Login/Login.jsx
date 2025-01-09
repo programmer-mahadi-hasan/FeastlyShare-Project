@@ -24,6 +24,7 @@ const Login = () => {
                 toast.error(error.message)
             })
     }
+
     const handleGoogleLogin = async () => {
         try {
             await googleLogin()
