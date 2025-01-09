@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import AuthContext from '../../Context/AuthContext/AuthContext';
 import Loading from '../Loading/Loading';
+import Swal from 'sweetalert2';
 
 const fetchFoods = async (email) => {
     const response = await fetch(`http://localhost:5000/foods/added-foods?donatorEmail=${encodeURIComponent(email)}`);
@@ -68,7 +69,24 @@ const ManageFoods = () => {
     };
 
     const handleDelete = (id) => {
-        deleteFoodMutation.mutate(id);
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteFoodMutation.mutate(id);
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your food has been deleted.",
+                    icon: "success"
+                });
+            }
+        });
     };
 
     if (isLoading) return <Loading />;

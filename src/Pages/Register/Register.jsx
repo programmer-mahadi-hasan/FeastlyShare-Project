@@ -41,7 +41,7 @@ const Register = () => {
         try {
             await googleLogin()
             toast.success('successfully login with Google')
-            navigate('/')
+            navigate(location.state ? location.state : "/")
         } catch (error) {
             toast.error('Google login error!')
         }
